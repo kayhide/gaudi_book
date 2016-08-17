@@ -180,3 +180,47 @@ Ctr2={NewCounter}
 
 {Browse {Ctr1.bump}}
 {Browse {Ctr2.bump}}
+
+% 1.15
+declare
+C={NewCell 0}
+thread
+   C:=1
+end
+thread
+   C:=2
+end
+
+{Browse @C}
+
+declare
+C={NewCell 0}
+thread I in
+   I=@C
+   C:=I+1
+end
+thread J in
+   J=@C
+   C:=J+1 
+end
+
+{Browse @C}
+
+% 1.16
+declare
+C={NewCell 0}
+L={NewLock}
+thread
+   lock L then I in
+      I=@C
+      C:=I+1
+   end
+end
+thread
+   lock L then J in
+      J=@C
+      C:=J+1
+   end
+end
+
+{Browse @C}
